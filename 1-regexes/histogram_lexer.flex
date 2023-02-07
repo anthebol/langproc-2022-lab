@@ -20,12 +20,31 @@ extern "C" int fileno(FILE *stream);
 
 %%
 
-[0-9]+          { fprintf(stderr, "Number : %s\n", yytext); /* TODO: get value out of yytext and into yylval.numberValue */;  return Number; }
+-?[0-9]+\.?[0-9]*       {  fprintf(stderr, "Number : %s\n", yytext); /* TODO: get value out of yytext and into yylval.numberValue */
+                           yylval.numberValue = strtod(yytext, NULL);
+                           return Number; 
+                        }
 
-[a-z]+          { fprintf(stderr, "Word : %s\n", yytext); /* TODO: get value out of yytext and into yylval.wordValue */;  return Word; }
+(-?[0-9]+)\/(-?[1-9]+)  {  fprintf(stderr, "Number : %s\n", yytext);
+                           char * numerator = strtok(yytext, "/");
+                           char * denominator = strtok(NULL, "/");
+                           yylval.numberValue = std::atof(numerator)/std::atof(denominator);
+                           return Number;
+                        }
 
-\n              { fprintf(stderr, "Newline\n"); }
+[a-zA-Z]*               {   fprintf(stderr, "Word : %s\n", yytext); /* TODO: get value out of yytext and into yylval.wordValue */
+                            yylval.wordValue = new std::string(yytext);
+                            return Word; 
+                        }
 
+\[[^\]]*\]              {   fprintf(stderr, "Word : %s\n", yytext);
+                            yylval.wordValue = new std::string(yytext);
+                            return Word;     
+                        }
+
+[ \t\n]+                   
+.                       {   fprintf(stderr, "Newline\n");
+                        }
 
 %%
 
@@ -35,3 +54,4 @@ void yyerror (char const *s)
   fprintf (stderr, "Flex Error: %s\n", s); /* s is the text that wasn't matched */
   exit(1);
 }
+
