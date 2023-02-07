@@ -25,7 +25,7 @@ extern "C" int fileno(FILE *stream);
                            return Number; 
                         }
 
-(-?[0-9]+)\/(-?[1-9]+)  {  fprintf(stderr, "Number : %s\n", yytext); //fractions
+(-?[0-9]+)\/(-?[1-9]+)  {  fprintf(stderr, "Number : %s\n", yytext); 
                            char * numerator = strtok(yytext, "/");
                            char * denominator = strtok(NULL, "/");
                            yylval.numberValue = std::atof(numerator)/std::atof(denominator);
