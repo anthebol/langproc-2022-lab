@@ -81,7 +81,7 @@ int main()
         unsigned count=it->second;
         // TODO: Print out `name` and `count` to std::cout
         
-        cout << "["  << name << "] " <<count<< endl;
+        cout << "["  << name << "] " << count << endl;
         ++it;
     }
 
