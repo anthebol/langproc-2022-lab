@@ -7,6 +7,8 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 // Use a hash-table to maintain a word -> count mapping.
 // This deliberately uses std::unordered_map rather than std::map,
 // because we don't need to enumerate the entries in key order.
@@ -32,7 +34,7 @@ int main()
         }else if(type==Number){
             // We have a number. The value will be
             // in yylval.numberValue
-
+            sum = yylval.numberValue + sum;
             // TODO: add to sum
             
         }else if(type==Word){
@@ -40,9 +42,13 @@ int main()
             // _pointed to_ by yylval.wordValue. Note that
             // the string is allocated by the lexer, but
             // deallocated by us.
-
+            string word = *yylval.wordValue;
+            if (word[0] == '[')
+            {
+                word = word.substr(1, word.length() - 2);
+            }
             // TODO: add yylval.wordValue to histogram
-
+            histogram[word] += 1;
             // TODO: Free the pointer yylval.wordValue to stop leaks
         }else{
             assert(0); // There are only three token types.
@@ -52,8 +58,8 @@ int main()
 
 
     // TODO: print out `sum` to std::cout with three decimal digits
-    
-
+        cout << fixed   <<  setprecision(3);
+        cout << sum     <<  endl;
     // Build a vector of (word,count) entries based on the hash-table
     std::vector<std::pair<std::string,unsigned> > sorted(histogram.begin(), histogram.end());
 
@@ -75,7 +81,7 @@ int main()
         unsigned count=it->second;
         // TODO: Print out `name` and `count` to std::cout
         
-        
+        cout << "["  << name << "] " << count << endl;
         ++it;
     }
 
