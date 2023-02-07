@@ -20,7 +20,17 @@ extern "C" int fileno(FILE *stream);
 
 %%
 
-[0-9]+          { fprintf(stderr, "Number : %s\n", yytext); /* TODO: get value out of yytext and into yylval.numberValue */;  return Number; }
+-?[0-9]+\.?[0-9]*       {  fprintf(stderr, "Number : %s\n", yytext); /* TODO: get value out of yytext and into yylval.numberValue */
+                           yylval.numberValue = strtod(yytext, NULL);
+                           return Number; 
+                        }
+
+(-?[0-9]+)\/(-?[1-9]+)  {  fprintf(stderr, "Number : %s\n", yytext); 
+                           char * numerator = strtok(yytext, "/");
+                           char * denominator = strtok(NULL, "/");
+                           yylval.numberValue = std::atof(numerator)/std::atof(denominator);
+                           return Number;
+                        }
 
 [a-zA-Z]*               {   fprintf(stderr, "Word : %s\n", yytext); /* TODO: get value out of yytext and into yylval.wordValue */
                             yylval.wordValue = new std::string(yytext);
