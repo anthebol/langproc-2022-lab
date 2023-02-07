@@ -54,4 +54,3 @@ void yyerror (char const *s)
   fprintf (stderr, "Flex Error: %s\n", s); /* s is the text that wasn't matched */
   exit(1);
 }
-
