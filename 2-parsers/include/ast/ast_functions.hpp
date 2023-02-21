@@ -45,14 +45,23 @@ class LogFunction
     : public Function
 {
 public:
-    LogFunction(ExpressionPtr _arg)
-        : Function(_arg)
-    {}
+    LogFunction(ExpressionPtr _arg) : Function(_arg) {}
 
     virtual const char *getFunction() const
     { return "log"; }
-    
+
     // TODO-E : Override evaluate, and implement it
+
+    virtual double evaluate(
+        
+    const std::map<std::string,double> &bindings
+    
+    ) const override
+    {
+        double vl=getArg()->evaluate(bindings);
+        return log(vl);
+        throw std::runtime_error("LogFunction::evaluate is not implemented.");
+    }
 };
 
 class ExpFunction
@@ -65,6 +74,17 @@ public:
 
     virtual const char *getFunction() const
     { return "exp"; }
+
+    virtual double evaluate(
+        
+    const std::map<std::string,double> &bindings
+    
+    ) const override
+    {
+        double vl=getArg()->evaluate(bindings);
+        return std::exp(vl);
+        throw std::runtime_error("ExpFunction::evaluate is not implemented.");
+    }
 };
 
 class SqrtFunction
@@ -77,6 +97,16 @@ public:
 
     virtual const char *getFunction() const
     { return "sqrt"; }
+    virtual double evaluate(
+        
+    const std::map<std::string,double> &bindings
+    
+    ) const override
+    {
+        double vl=getArg()->evaluate(bindings);
+        return std::sqrt(vl);
+        throw std::runtime_error("SqrtFunction::evaluate is not implemented.");
+    }
 };
 
 
